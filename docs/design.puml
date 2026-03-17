@@ -1,0 +1,32 @@
+@startuml design
+
+' Executables
+class client_cli as "client_cli.cpp"
+class client_gui as "client_gui.cpp"
+class server as "server.cpp"
+
+' Chat
+class chat_core as "chat_core.cpp"
+class msg_switch as "msg_switch.cpp"
+class client_handler as "client_handler.cpp"
+
+' Asymmetric Keygen
+class key_gen as "key_gen.cpp"
+
+' GUI
+class main_window as "main_window.cpp"
+
+''' Client CLI
+client_cli --> chat_core
+chat_core --> key_gen
+
+''' Client GUI
+client_gui --> chat_core
+client_gui --> main_window
+
+''' Server
+server --> client_handler
+server --> msg_switch
+client_handler --|> msg_switch : forwards messages
+
+@enduml
