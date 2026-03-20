@@ -1,2 +1,8 @@
-bin
+# Editor
+.vscode
+
+# Build
 build
+
+# Binaries
+bin

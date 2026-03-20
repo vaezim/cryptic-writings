@@ -9,9 +9,8 @@ End-to-End encrypted chat application
 
 ## Run
 ```bash
-./bin/crywri-server  # server side
-./bin/crywri-cli     # client side (command-line)
-./bin/crywri-gui     # client side (gui)
+./bin/crywri-server     # server side
+./bin/crywri-client     # client side (gui)
 ```
 
 ## Design

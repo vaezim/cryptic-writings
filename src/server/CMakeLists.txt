@@ -7,6 +7,6 @@ set(CORE_SRC_FILES
 )
 
 add_executable("${PROJECT_BINARY_NAME}-server"
-    "server.cpp"
+    "server_main.cpp"
     ${CORE_SRC_FILES}
 )

@@ -11,13 +11,15 @@ set(GUI_SRC_FILES
     "main_window.cpp"
 )
 
-add_executable("${PROJECT_BINARY_NAME}-cli"
-    "client_cli.cpp"
-    ${CORE_SRC_FILES}
-)
-
-add_executable("${PROJECT_BINARY_NAME}-gui"
-    "client_gui.cpp"
+add_executable("${PROJECT_BINARY_NAME}-client"
+    "client_main.cpp"
     ${CORE_SRC_FILES}
     ${GUI_SRC_FILES}
+    ${UI_FILES}
+)
+
+target_link_libraries("${PROJECT_BINARY_NAME}-client" PRIVATE
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Network
 )

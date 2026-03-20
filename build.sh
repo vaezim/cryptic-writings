@@ -6,5 +6,4 @@ if [[ $1 == "clean" ]]; then
     exit 0
 fi
 
-cmake -S . -B build/
-make --no-print-directory -C build/ -j2
+cmake -S . -B build/ && make --no-print-directory -j4 -C build/
