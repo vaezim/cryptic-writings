@@ -6,12 +6,16 @@
 
 class MainWindow : public QMainWindow {
 public:
-    MainWindow() : QMainWindow() {}
+    MainWindow();
     
     void setupUi();
 
 private:
-    Ui_MainWindow ui;
+    Ui_MainWindow *m_ui;
+
+private slots:
+    void on_sendButton_clicked();
+    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 #endif // MAIN_WINDOW_H
