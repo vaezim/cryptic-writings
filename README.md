@@ -3,8 +3,15 @@
 End-to-End encrypted chat application
 
 ## Build
+
+To build both client (has dependency on Qt6) and server executables:
 ```bash
 ./build.sh
+```
+
+To build server executable only:
+```bash
+./build.sh server
 ```
 
 ## Run
