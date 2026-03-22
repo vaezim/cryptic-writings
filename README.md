@@ -20,6 +20,6 @@ To build server executable only:
 ./bin/crywri-client     # client side (gui)
 ```
 
-## Design
+## Class dependency
 
 ![design.svg](docs/design.svg)
