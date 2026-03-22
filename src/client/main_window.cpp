@@ -22,10 +22,6 @@ MainWindow::MainWindow() : QMainWindow() {
     m_ui = new Ui_MainWindow();
     m_ui->setupUi(this);
 
-    // Will filter Enter-key presses
-    m_ui->messageTextEdit->installEventFilter(this);
-    connect(m_ui->sendButton, &QPushButton::clicked, this, &MainWindow::on_sendButton_clicked);
-
     // Welcome message
     QFont font("Courier New");
     font.setStyleHint(QFont::Monospace);
@@ -43,9 +39,14 @@ MainWindow::MainWindow() : QMainWindow() {
             QGuiApplication::primaryScreen()->availableGeometry()
         )
     );
+
+    // Handle Enter-key presses
+    m_ui->messageTextEdit->installEventFilter(this);
+    connect(m_ui->sendButton, &QPushButton::clicked,
+        this, &MainWindow::on_sendButton_clicked);
 }
 
-void MainWindow::initializeClientEndpoint() {
+void MainWindow::initializeClientEndpoint(const ClientStartupInfo &clientStartupInfo) {
 
 }
 

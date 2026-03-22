@@ -5,6 +5,12 @@
 #include <chrono>
 
 
+struct ClientStartupInfo {
+    std::string clientName;
+    std::string serverAddress;
+    int serverPort;
+};
+
 struct Message {
     std::chrono::system_clock::time_point time;
     std::string text;
