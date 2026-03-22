@@ -1,22 +1,61 @@
+#include <QtWidgets/QStyle>
+
 #include "main_window.h"
 
 
+static const char *placeHolderText = R"(
+=========================================================================
+ _____                  _   _        _    _      _ _   _                 
+/  __ \                | | (_)      | |  | |    (_) | (_)                
+| /  \/_ __ _   _ _ __ | |_ _  ___  | |  | |_ __ _| |_ _ _ __   __ _ ___ 
+| |   | '__| | | | '_ \| __| |/ __| | |/\| | '__| | __| | '_ \ / _` / __|
+| \__/\ |  | |_| | |_) | |_| | (__  \  /\  / |  | | |_| | | | | (_| \__ \
+ \____/_|   \__, | .__/ \__|_|\___|  \/  \/|_|  |_|\__|_|_| |_|\__, |___/
+             __/ | |                                            __/ |    
+            |___/|_|                                           |___/     
+=========================================================================
+                      End-to-end encrypted chat ;)                         
+
+)";
+
 MainWindow::MainWindow() : QMainWindow() {
     m_ui = new Ui_MainWindow();
-}
-
-void MainWindow::setupUi() {
     m_ui->setupUi(this);
 
+    // Will filter Enter-key presses
+    m_ui->messageTextEdit->installEventFilter(this);
     connect(m_ui->sendButton, &QPushButton::clicked, this, &MainWindow::on_sendButton_clicked);
 
-    m_ui->messageTextEdit->installEventFilter(this);
+    // Welcome message
+    QFont font("Courier New");
+    font.setStyleHint(QFont::Monospace);
+    font.setBold(true);
+    m_ui->textBrowser->setFont(font);
+    m_ui->textBrowser->setLineWrapMode(QTextEdit::NoWrap);
+    m_ui->textBrowser->append(placeHolderText);
+
+    // Show window in the center of the screen
+    setGeometry(
+        QStyle::alignedRect(
+            Qt::LeftToRight,
+            Qt::AlignCenter,
+            size(),
+            QGuiApplication::primaryScreen()->availableGeometry()
+        )
+    );
+}
+
+void MainWindow::initializeClientEndpoint() {
+
 }
 
 void MainWindow::on_sendButton_clicked() {
     QString message = m_ui->messageTextEdit->toPlainText();
     m_ui->messageTextEdit->clear();
-    m_ui->textBrowser->append(message);
+    if (message.size()) {
+        m_ui->textBrowser->append(message);
+        m_ui->textBrowser->moveCursor(QTextCursor::End);
+    }
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {

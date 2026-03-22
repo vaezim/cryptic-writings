@@ -3,14 +3,19 @@
 #include <QtWidgets/QApplication>
 
 #include "main_window.h"
+#include "startup_form.h"
 
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
 
-    MainWindow mainWindow;
-    mainWindow.setupUi();
+    StartupForm startupForm;
+    startupForm.show();
 
-    mainWindow.show();
+    MainWindow mainWindow;
+
+    // Call mainWindow.show() once startupForm.close() has been called
+    QObject::connect(&startupForm, &StartupForm::formClosed, &mainWindow, &QMainWindow::show);
+
     app.exec();
 }

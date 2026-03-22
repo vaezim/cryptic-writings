@@ -1,21 +1,23 @@
-#ifndef CHAT_CORE_H
-#define CHAT_CORE_H
+#ifndef CLIENT_ENDPOINT_H
+#define CLIENT_ENDPOINT_H
 
 #include <string>
 
 #include "types.h"
 
 
-class ChatCore {
+class ClientEndpoint {
 public:
-    ChatCore(
+    ClientEndpoint(
         const std::string &clientName,
-        const std::string &serverIp
+        const std::string &serverIp,
+        int serverPort
     ) :
         m_clientName(clientName),
-        m_serverIp(serverIp)
+        m_serverIp(serverIp),
+        m_serverPort(serverPort)
     {}
-    ~ChatCore() = default;
+    ~ClientEndpoint() = default;
 
     // Sends a message from this client to the server
     void SendMessage(const std::string &message);
@@ -25,9 +27,7 @@ public:
 private:
     std::string m_clientName;
     std::string m_serverIp;
-
-    std::string m_clientPublicKey;
-    std::string m_clientPrivateKey;
+    int m_serverPort;
 };
 
-#endif // CHAT_CORE_H
+#endif // CLIENT_ENDPOINT_H

@@ -1,7 +1,7 @@
 
 set(CORE_SRC_FILES
-    "chat_core.h"
-    "chat_core.cpp"
+    "client_endpoint.h"
+    "client_endpoint.cpp"
     "key_gen.h"
     "key_gen.cpp"
 )
@@ -9,6 +9,8 @@ set(CORE_SRC_FILES
 set(GUI_SRC_FILES
     "main_window.h"
     "main_window.cpp"
+    "startup_form.h"
+    "startup_form.cpp"
 )
 
 add_executable("${PROJECT_BINARY_NAME}-client"
