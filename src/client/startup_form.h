@@ -15,12 +15,13 @@ class StartupForm : public QWidget {
 public:
     StartupForm();
 
-    const ClientStartupInfo &getClientStartupInfo() const {
-        return m_clientStartupInfo;
+    const ClientEndpointConfig &getClientEndpointConfig() const {
+        return m_clientEndpointConfig;
     }
 
 Q_SIGNALS:
     void formClosed();
+    void clientEndpointConfigReady(const ClientEndpointConfig &);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -28,7 +29,7 @@ protected:
 
 private:
     Ui_StartupForm *m_ui;
-    ClientStartupInfo m_clientStartupInfo;
+    ClientEndpointConfig m_clientEndpointConfig;
 
 private slots:
     void on_connectButton_clicked();

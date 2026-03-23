@@ -13,15 +13,16 @@
 class MainWindow : public QMainWindow {
 public:
     MainWindow();
-    
-    void initializeClientEndpoint(const ClientStartupInfo &);
+
+public slots:
+    void initializeClientEndpoint(const ClientEndpointConfig &);
 
 protected:
     bool eventFilter(QObject *, QEvent *) override;
 
 private:
     Ui_MainWindow *m_ui;
-    std::unique_ptr<ClientEndpoint> m_ClientEndpointPtr;
+    std::unique_ptr<ClientEndpoint> m_clientEndpointPtr;
 
 private slots:
     void on_sendButton_clicked();

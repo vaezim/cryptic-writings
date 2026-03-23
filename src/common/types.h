@@ -5,7 +5,7 @@
 #include <chrono>
 
 
-struct ClientStartupInfo {
+struct ClientEndpointConfig {
     std::string clientName;
     std::string serverAddress;
     int serverPort;

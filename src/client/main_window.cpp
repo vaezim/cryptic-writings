@@ -46,14 +46,20 @@ MainWindow::MainWindow() : QMainWindow() {
         this, &MainWindow::on_sendButton_clicked);
 }
 
-void MainWindow::initializeClientEndpoint(const ClientStartupInfo &clientStartupInfo) {
-
+void MainWindow::initializeClientEndpoint(const ClientEndpointConfig &clientEndpointConfig) {
+    m_clientEndpointPtr = std::make_unique<ClientEndpoint>(clientEndpointConfig);
+    QString text = QString("::::: User [%1] joined the server :::::\n")
+        .arg(m_clientEndpointPtr->clientName().c_str());
+    m_ui->textBrowser->append(text);
 }
 
 void MainWindow::on_sendButton_clicked() {
     QString message = m_ui->messageTextEdit->toPlainText();
     m_ui->messageTextEdit->clear();
     if (message.size()) {
+        QString clientName = QString("[%1] ")
+            .arg(m_clientEndpointPtr->clientName().c_str());
+        message.prepend(clientName);
         m_ui->textBrowser->append(message);
         m_ui->textBrowser->moveCursor(QTextCursor::End);
     }

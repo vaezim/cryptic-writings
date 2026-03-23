@@ -40,6 +40,7 @@ StartupForm::StartupForm() : QWidget() {
 
 void StartupForm::closeEvent(QCloseEvent *event) {
     emit formClosed();
+    emit clientEndpointConfigReady(m_clientEndpointConfig);
     event->accept();
 }
 
@@ -61,8 +62,8 @@ bool StartupForm::eventFilter(QObject *obj, QEvent *event) {
 }
 
 void StartupForm::on_connectButton_clicked() {
-    m_clientStartupInfo.clientName = m_ui->clientNameEdit->text().toStdString();
-    m_clientStartupInfo.serverAddress = m_ui->serverAddressEdit->text().toStdString();
-    m_clientStartupInfo.serverPort = m_ui->serverPortEdit->text().toInt();
+    m_clientEndpointConfig.clientName = m_ui->clientNameEdit->text().toStdString();
+    m_clientEndpointConfig.serverAddress = m_ui->serverAddressEdit->text().toStdString();
+    m_clientEndpointConfig.serverPort = m_ui->serverPortEdit->text().toInt();
     close();
 }

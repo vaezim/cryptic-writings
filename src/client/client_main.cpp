@@ -15,7 +15,14 @@ int main(int argc, char **argv) {
     MainWindow mainWindow;
 
     // Call mainWindow.show() once startupForm.close() has been called
-    QObject::connect(&startupForm, &StartupForm::formClosed, &mainWindow, &QMainWindow::show);
+    QObject::connect(
+        &startupForm, &StartupForm::formClosed,
+        &mainWindow, &QMainWindow::show);
+
+    // Emit ClientEndpointConfig from startupForm to mainWindow
+    QObject::connect(
+        &startupForm, &StartupForm::clientEndpointConfigReady,
+        &mainWindow, &MainWindow::initializeClientEndpoint);
 
     app.exec();
 }

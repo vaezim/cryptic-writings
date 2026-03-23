@@ -9,19 +9,21 @@
 class ClientEndpoint {
 public:
     ClientEndpoint(
-        const std::string &clientName,
-        const std::string &serverIp,
-        int serverPort
+        const ClientEndpointConfig &config
     ) :
-        m_clientName(clientName),
-        m_serverIp(serverIp),
-        m_serverPort(serverPort)
+        m_clientName(config.clientName),
+        m_serverIp(config.serverAddress),
+        m_serverPort(config.serverPort)
     {}
     ~ClientEndpoint() = default;
 
-    // Sends a message from this client to the server
+    std::string clientName() const { return m_clientName; }
+    std::string serverIp() const { return m_serverIp; }
+    int serverPort() const { return m_serverPort; }
+
+    // Sends a message from client to server
     void SendMessage(const std::string &message);
-    // Blocking function that waits for a message from the server
+    // Blocking function that waits for a message from server
     std::string ReceiveMessage();
 
 private:
