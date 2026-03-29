@@ -20,12 +20,12 @@ public slots:
 protected:
     bool eventFilter(QObject *, QEvent *) override;
 
+private slots:
+    void on_sendButton_clicked();
+
 private:
     Ui_MainWindow *m_ui;
     std::unique_ptr<ClientEndpoint> m_clientEndpointPtr;
-
-private slots:
-    void on_sendButton_clicked();
 };
 
 #endif // MAIN_WINDOW_H

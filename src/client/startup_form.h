@@ -27,12 +27,12 @@ protected:
     void closeEvent(QCloseEvent *) override;
     bool eventFilter(QObject *, QEvent *) override;
 
+private slots:
+    void on_connectButton_clicked();
+
 private:
     Ui_StartupForm *m_ui;
     ClientEndpointConfig m_clientEndpointConfig;
-
-private slots:
-    void on_connectButton_clicked();
 };
 
 #endif // STARTUP_FORM_H
