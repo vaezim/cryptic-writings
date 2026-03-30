@@ -13,6 +13,12 @@ set(GUI_SRC_FILES
     "startup_form.cpp"
 )
 
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+    Widgets
+    Network
+)
+
 add_executable("${PROJECT_BINARY_NAME}-client"
     "client_main.cpp"
     ${CORE_SRC_FILES}

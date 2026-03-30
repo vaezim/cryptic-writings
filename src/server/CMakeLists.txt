@@ -9,8 +9,12 @@ add_executable("${PROJECT_BINARY_NAME}-server"
     ${CORE_SRC_FILES}
 )
 
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+    Network
+)
+
 target_link_libraries("${PROJECT_BINARY_NAME}-server" PRIVATE
     Qt6::Core
-    Qt6::Widgets
     Qt6::Network
 )

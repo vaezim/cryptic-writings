@@ -1,10 +1,10 @@
-#include <QtWidgets/QApplication>
+#include <QtCore/QCoreApplication>
 
 #include "server_endpoint.h"
 
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
     ServerEndpoint server;
     if (!server.initServer()) {

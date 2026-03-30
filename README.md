@@ -2,9 +2,25 @@
 
 End-to-End encrypted chat application
 
+## Qt6 dependencies
+Client executable has dependency on `Qt::Widgets` module (with dependency on OpenGL or other graphics library), `Qt::Network` and `Qt::Core`.
+Server executable only uses `Qt::Network` and `Qt::Core` and can be built on a remote SSH server.
+
+Client side requirements:
+```bash
+sudo apt update
+sudo apt install qt6-base-dev qt6-network-dev libqt6widgets6
+```
+
+Server side requirements:
+```bash
+sudo apt update
+sudo apt install qt6-base-dev-tools libqt6network6
+```
+
 ## Build
 
-To build both client (has dependency on Qt6) and server executables:
+To build both client and server executables run:
 ```bash
 ./build.sh
 ```
@@ -20,6 +36,6 @@ To build server executable only:
 ./bin/crywri-client     # client side (gui)
 ```
 
-## Class dependency
+## Objects relationship
 
-![design.svg](docs/design.svg)
+![objects.svg](docs/objects.svg)
