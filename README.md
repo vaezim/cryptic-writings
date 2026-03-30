@@ -9,13 +9,13 @@ Server executable only uses `Qt::Network` and `Qt::Core` and can be built on a r
 Client side requirements:
 ```bash
 sudo apt update
-sudo apt install qt6-base-dev qt6-network-dev libqt6widgets6
+sudo apt install qt6-base-dev libqt6widgets6
 ```
 
 Server side requirements:
 ```bash
 sudo apt update
-sudo apt install qt6-base-dev-tools libqt6network6
+sudo apt install qt6-base-dev
 ```
 
 ## Build
