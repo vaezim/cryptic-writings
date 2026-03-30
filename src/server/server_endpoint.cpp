@@ -36,7 +36,12 @@ bool ServerEndpoint::initServer() {
 
 void ServerEndpoint::handleNewClient() {
     QTcpSocket *clientSocket = nextPendingConnection();
+    m_clientIndexMap[clientSocket] = m_clientSockets.size();
     m_clientSockets.push_back(clientSocket);
+
+    auto dataStreamPtr = std::make_unique<QDataStream>(clientSocket);
+    dataStreamPtr->setVersion(DATA_STREAM_PROTOCOL_VERSION);
+    m_dataStreams.push_back(std::move(dataStreamPtr));
 
     QHostAddress clientIPv4Address(clientSocket->peerAddress().toIPv4Address());
     GREEN_INFO_LOG("New client arrived from " << clientIPv4Address.toString().toStdString());
@@ -44,4 +49,31 @@ void ServerEndpoint::handleNewClient() {
     // Release clientSocket if it gets disconnected
     connect(clientSocket, &QAbstractSocket::disconnected,
             clientSocket, &QObject::deleteLater);
+
+    // Signals when new client data has arrived
+    connect(clientSocket, &QIODevice::readyRead,
+            this, &ServerEndpoint::handleRead);
+}
+
+void ServerEndpoint::handleRead() {
+    QTcpSocket *sendingClient = qobject_cast<QTcpSocket *>(sender());
+    size_t sendingClientIndex = m_clientIndexMap[sendingClient];
+
+    // Read the message sent by sendingClient
+    auto &sendingDataStream = m_dataStreams[sendingClientIndex];
+    sendingDataStream->startTransaction();
+    QString message;
+    (*sendingDataStream) >> message;
+    if (!sendingDataStream->commitTransaction()) {
+        return;
+    }
+
+    // Broadcast the message to all other clients
+    for (size_t i{ 0 }; i < m_clientSockets.size(); i++) {
+        if (i == sendingClientIndex) {
+            continue;
+        }
+        auto &receivingDataStream = m_dataStreams[i];
+        (*receivingDataStream) << message;
+    }
 }

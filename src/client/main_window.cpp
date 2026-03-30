@@ -43,7 +43,7 @@ MainWindow::MainWindow() : QMainWindow() {
     // Handle Enter-key presses
     m_ui->messageTextEdit->installEventFilter(this);
     connect(m_ui->sendButton, &QPushButton::clicked,
-        this, &MainWindow::on_sendButton_clicked);
+        this, &MainWindow::onSendButtonClicked);
 }
 
 void MainWindow::initializeClientEndpoint(const ClientEndpointConfig &clientEndpointConfig) {
@@ -51,18 +51,42 @@ void MainWindow::initializeClientEndpoint(const ClientEndpointConfig &clientEndp
     QString text = QString("::::: User [%1] joined the server :::::\n")
         .arg(m_clientEndpointPtr->clientName().c_str());
     m_ui->textBrowser->append(text);
+
+    // Handle readyRead signals
+    connect(m_clientEndpointPtr->serverSocket(), &QIODevice::readyRead,
+            this, &MainWindow::onNewMessageArrive);
 }
 
-void MainWindow::on_sendButton_clicked() {
+void MainWindow::onSendButtonClicked() {
     QString message = m_ui->messageTextEdit->toPlainText();
     m_ui->messageTextEdit->clear();
-    if (message.size()) {
-        QString clientName = QString("[%1] ")
-            .arg(m_clientEndpointPtr->clientName().c_str());
-        message.prepend(clientName);
-        m_ui->textBrowser->append(message);
-        m_ui->textBrowser->moveCursor(QTextCursor::End);
+    if (message.isEmpty()) {
+        return;
     }
+
+    // Append it to textBrowser
+    QString clientName = QString("[%1] ")
+        .arg(m_clientEndpointPtr->clientName().c_str());
+    message.prepend(clientName);
+    m_ui->textBrowser->append(message);
+    m_ui->textBrowser->moveCursor(QTextCursor::End);
+
+    // Send message to the server
+    if (m_clientEndpointPtr) {
+        m_clientEndpointPtr->sendMessage(message);
+    }
+}
+
+void MainWindow::onNewMessageArrive() {
+    auto &dataStream = m_clientEndpointPtr->dataStream();
+    dataStream.startTransaction();
+    QString message;
+    dataStream >> message;
+    if (!dataStream.commitTransaction()) {
+        return;
+    }
+    m_ui->textBrowser->append(message);
+    m_ui->textBrowser->moveCursor(QTextCursor::End);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
@@ -71,7 +95,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
     }
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
     if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
-        on_sendButton_clicked();
+        onSendButtonClicked();
         return true;
     }
     return QObject::eventFilter(obj, event);

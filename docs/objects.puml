@@ -6,8 +6,7 @@ class server_main as "server_main.cpp"
 
 ' Chat
 class client_endpoint as "client_endpoint.cpp"
-class msg_switch as "msg_switch.cpp"
-class client_handler as "client_handler.cpp"
+class server_endpoint as "server_endpoint.cpp"
 
 ' Asymmetric Keygen
 class key_gen as "key_gen.cpp"
@@ -23,8 +22,6 @@ client_main --> main_window
 client_main --> startup_form
 
 ''' Server
-server_main --> client_handler
-server_main --> msg_switch
-client_handler --|> msg_switch : forwards messages
+server_main --> server_endpoint
 
 @enduml

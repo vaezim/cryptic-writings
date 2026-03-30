@@ -15,10 +15,10 @@ public:
 
     std::string clientName() const { return m_clientName; }
 
-    // Sends a message from client to server
-    void SendMessage(const std::string &message);
-    // Blocking function that waits for a message from server
-    std::string ReceiveMessage();
+    QTcpSocket *serverSocket() const { return m_serverSocket; }
+    QDataStream &dataStream() { return m_dataStream; }
+
+    void sendMessage(const QString &message);
 
 private:
     std::string m_clientName;

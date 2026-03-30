@@ -35,7 +35,7 @@ StartupForm::StartupForm() : QWidget() {
     m_ui->serverAddressEdit->installEventFilter(this);
     m_ui->serverPortEdit->installEventFilter(this);
     connect(m_ui->connectButton, &QPushButton::clicked,
-        this, &StartupForm::on_connectButton_clicked);
+        this, &StartupForm::onConnectButtonClicked);
 }
 
 void StartupForm::closeEvent(QCloseEvent *event) {
@@ -55,13 +55,13 @@ bool StartupForm::eventFilter(QObject *obj, QEvent *event) {
     }
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
     if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
-        on_connectButton_clicked();
+        onConnectButtonClicked();
         return true;
     }
     return QObject::eventFilter(obj, event);
 }
 
-void StartupForm::on_connectButton_clicked() {
+void StartupForm::onConnectButtonClicked() {
     m_clientEndpointConfig.clientName = m_ui->clientNameEdit->text().toStdString();
     m_clientEndpointConfig.serverAddress = m_ui->serverAddressEdit->text().toStdString();
     m_clientEndpointConfig.serverPort = m_ui->serverPortEdit->text().toInt();

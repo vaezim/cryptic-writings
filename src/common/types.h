@@ -5,6 +5,11 @@
 #include <chrono>
 #include <iostream>
 
+#include <QtCore/QDataStream>
+
+
+// Protocol version of the stream
+constexpr int DATA_STREAM_PROTOCOL_VERSION = QDataStream::Qt_6_0;
 
 struct ClientEndpointConfig {
     std::string clientName;
@@ -12,18 +17,13 @@ struct ClientEndpointConfig {
     int serverPort;
 };
 
-struct Message {
-    std::chrono::system_clock::time_point time;
-    std::string text;
-    std::string clientName;
-};
-
-// Colors
+// Color codes
 #define COLOR_RED       "\x1B[91m"
 #define COLOR_GREEN     "\x1B[92m"
 #define COLOR_YELLOW    "\x1B[93m"
 #define COLOR_DEFAULT   "\x1B[0m"
 
+// Log messages
 #define INFO_LOG(msg)                                   \
     do {                                                \
         std::cout <<                                    \

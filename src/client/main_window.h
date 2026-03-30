@@ -21,7 +21,8 @@ protected:
     bool eventFilter(QObject *, QEvent *) override;
 
 private slots:
-    void on_sendButton_clicked();
+    void onSendButtonClicked();
+    void onNewMessageArrive();
 
 private:
     Ui_MainWindow *m_ui;

@@ -28,7 +28,7 @@ protected:
     bool eventFilter(QObject *, QEvent *) override;
 
 private slots:
-    void on_connectButton_clicked();
+    void onConnectButtonClicked();
 
 private:
     Ui_StartupForm *m_ui;

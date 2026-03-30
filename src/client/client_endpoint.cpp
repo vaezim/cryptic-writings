@@ -7,14 +7,10 @@ ClientEndpoint::ClientEndpoint(const ClientEndpointConfig &config) :
     m_serverPort(config.serverPort) {
     m_serverSocket = new QTcpSocket(this);
     m_dataStream.setDevice(m_serverSocket);
-    m_dataStream.setVersion(QDataStream::Qt_DefaultCompiledVersion);
+    m_dataStream.setVersion(DATA_STREAM_PROTOCOL_VERSION);
     m_serverSocket->connectToHost(m_serverIp.c_str(), m_serverPort);
 }
 
-void ClientEndpoint::SendMessage(const std::string &message) {
-
-}
-
-std::string ClientEndpoint::ReceiveMessage() {
-    return std::string();
+void ClientEndpoint::sendMessage(const QString &message) {
+    m_dataStream << message;
 }
