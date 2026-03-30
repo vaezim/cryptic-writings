@@ -36,6 +36,6 @@ To build server executable only:
 ./bin/crywri-client     # client side (gui)
 ```
 
-## Objects relationship
+## Object relationship
 
 ![objects.svg](docs/objects.svg)
