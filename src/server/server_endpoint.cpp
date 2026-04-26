@@ -26,7 +26,7 @@ bool ServerEndpoint::initServer() {
         ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
     }
     INFO_LOG("Server is listening on " << ipAddress.toStdString() << ":" << serverPort());
-    
+
     // If a new client connects, run handleNewClient()
     connect(this, &QTcpServer::newConnection,
             this, &ServerEndpoint::handleNewClient);

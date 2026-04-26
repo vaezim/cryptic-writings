@@ -2,8 +2,6 @@
 set(CORE_SRC_FILES
     "client_endpoint.h"
     "client_endpoint.cpp"
-    "key_gen.h"
-    "key_gen.cpp"
 )
 
 set(GUI_SRC_FILES
@@ -19,14 +17,14 @@ find_package(Qt6 REQUIRED COMPONENTS
     Network
 )
 
-add_executable("${PROJECT_BINARY_NAME}-client"
+add_executable(${CLIENT_EXECUTABLE_NAME}
     "client_main.cpp"
     ${CORE_SRC_FILES}
     ${GUI_SRC_FILES}
     ${UI_FILES}
 )
 
-target_link_libraries("${PROJECT_BINARY_NAME}-client" PRIVATE
+target_link_libraries(${CLIENT_EXECUTABLE_NAME} PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Network

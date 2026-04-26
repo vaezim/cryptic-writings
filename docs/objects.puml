@@ -8,18 +8,15 @@ class server_main as "server_main.cpp"
 class client_endpoint as "client_endpoint.cpp"
 class server_endpoint as "server_endpoint.cpp"
 
-' Asymmetric Keygen
-class key_gen as "key_gen.cpp"
-
 ' GUI
 class main_window as "main_window.cpp"
 class startup_form as "startup_form.cpp"
 
 ''' Client GUI
 client_main --> client_endpoint
-client_endpoint --> key_gen
 client_main --> main_window
 client_main --> startup_form
+startup_form --|> main_window : invokes
 
 ''' Server
 server_main --> server_endpoint

@@ -4,7 +4,7 @@ set(CORE_SRC_FILES
     "server_endpoint.cpp"
 )
 
-add_executable("${PROJECT_BINARY_NAME}-server"
+add_executable(${SERVER_EXECUTABLE_NAME}
     "server_main.cpp"
     ${CORE_SRC_FILES}
 )
@@ -14,7 +14,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     Network
 )
 
-target_link_libraries("${PROJECT_BINARY_NAME}-server" PRIVATE
+target_link_libraries(${SERVER_EXECUTABLE_NAME} PRIVATE
     Qt6::Core
     Qt6::Network
 )
