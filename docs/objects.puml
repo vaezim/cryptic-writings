@@ -13,10 +13,10 @@ class main_window as "main_window.cpp"
 class startup_form as "startup_form.cpp"
 
 ''' Client GUI
-client_main --> client_endpoint
 client_main --> main_window
 client_main --> startup_form
 startup_form --|> main_window : invokes
+main_window --> client_endpoint
 
 ''' Server
 server_main --> server_endpoint

@@ -28,4 +28,5 @@ target_link_libraries(${CLIENT_EXECUTABLE_NAME} PRIVATE
     Qt6::Core
     Qt6::Widgets
     Qt6::Network
+    crypto
 )

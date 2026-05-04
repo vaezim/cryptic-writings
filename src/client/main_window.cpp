@@ -52,9 +52,9 @@ void MainWindow::initializeClientEndpoint(const ClientEndpointConfig &clientEndp
         .arg(m_clientEndpointPtr->clientName().c_str());
     m_ui->textBrowser->append(text);
 
-    // Handle readyRead signals
-    connect(m_clientEndpointPtr->serverSocket(), &QIODevice::readyRead,
-            this, &MainWindow::onNewMessageArrive);
+    // When client receives a new message, display it
+    connect(m_clientEndpointPtr.get(), &ClientEndpoint::receivedMessage,
+        this, &MainWindow::onNewMessageArrive);
 }
 
 void MainWindow::onSendButtonClicked() {
@@ -77,14 +77,7 @@ void MainWindow::onSendButtonClicked() {
     }
 }
 
-void MainWindow::onNewMessageArrive() {
-    auto &dataStream = m_clientEndpointPtr->dataStream();
-    dataStream.startTransaction();
-    QString message;
-    dataStream >> message;
-    if (!dataStream.commitTransaction()) {
-        return;
-    }
+void MainWindow::onNewMessageArrive(const QString &message) {
     m_ui->textBrowser->append(message);
     m_ui->textBrowser->moveCursor(QTextCursor::End);
 }

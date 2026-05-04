@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
 
     ServerEndpoint server;
-    if (!server.initServer()) {
+    if (!server.startServer()) {
         return 1;
     }
 

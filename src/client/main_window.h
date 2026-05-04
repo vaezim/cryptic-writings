@@ -11,6 +11,8 @@
 
 
 class MainWindow : public QMainWindow {
+    Q_OBJECT
+
 public:
     MainWindow();
 
@@ -22,7 +24,7 @@ protected:
 
 private slots:
     void onSendButtonClicked();
-    void onNewMessageArrive();
+    void onNewMessageArrive(const QString &message);
 
 private:
     Ui_MainWindow *m_ui;

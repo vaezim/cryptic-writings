@@ -11,6 +11,31 @@
 // Protocol version of the stream
 constexpr int DATA_STREAM_PROTOCOL_VERSION = QDataStream::Qt_6_0;
 
+constexpr int AES_256_GCM_IV_SIZE = 12;
+constexpr int AES_256_GCM_TAG_SIZE = 16;
+
+// AES-256-GCM
+#define CIPHER_TYPE EVP_aes_256_gcm()
+
+enum MessageType : int {
+    /* Client side */
+    REGISTER_PUBLIC_KEY,        // client registers its public key to the server
+    GET_PEER_PUBLIC_KEY,        // client asks for peer's public key
+
+    /* Server side */
+    SENDING_PEER_PUBLIC_KEY,    // server sends peer's public key
+    PEER_PUBLIC_KEY_NOT_READY,  // server has not yet received peer's public key
+
+    /* Client & Server side */
+    ENCRYPTED_MESSAGE,          // regular chat message which is encrypted
+};
+
+enum ClientId : int {
+    UNKNOWN,
+    CLIENT_1,
+    CLIENT_2
+};
+
 struct ClientEndpointConfig {
     std::string clientName;
     std::string serverAddress;
@@ -45,7 +70,7 @@ struct ClientEndpointConfig {
 #define ERROR_LOG(msg)                                      \
     do {                                                    \
         std::cout << COLOR_RED                              \
-        "[RED] " << msg << COLOR_DEFAULT << std::endl;      \
+        "[ERROR] " << msg << COLOR_DEFAULT << std::endl;      \
     } while(0)
 
 #endif // TYPES_H
