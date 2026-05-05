@@ -16,13 +16,14 @@ ClientEndpoint::ClientEndpoint(const ClientEndpointConfig &config) :
     m_serverIp(config.serverAddress),
     m_serverPort(config.serverPort)
 {
-    generateAsymmetricKeyPair();
-
     // Initialize client socket and connect to the server
     m_serverSocket = new QTcpSocket(this);
     m_dataStream.setDevice(m_serverSocket);
     m_dataStream.setVersion(DATA_STREAM_PROTOCOL_VERSION);
     m_serverSocket->connectToHost(m_serverIp.c_str(), m_serverPort);
+
+    // X25519 key pair
+    generateAsymmetricKeyPair();
 
     // Send public key to the server
     m_dataStream << REGISTER_PUBLIC_KEY << m_publicKey;
@@ -183,7 +184,7 @@ void ClientEndpoint::generateSharedSecretKey() {
     m_sharedSecretKey.resize(SHA256_DIGEST_LENGTH);
     SHA256(rawSecretKey.data(), secretKeySize, m_sharedSecretKey.data());
 
-    // Display first 10 digits of secret key's hash in hex format.
+    // Display the first 10 digits of secret key's hash in hex format.
     // Two clients should compare these to make sure they are identical,
     // otherwise MITM attack might have happened.
     QByteArray secretKey((const char *)m_sharedSecretKey.data(), m_sharedSecretKey.size());
@@ -191,7 +192,7 @@ void ClientEndpoint::generateSharedSecretKey() {
     QString fingerprint = secretKeyHash.toHex().left(10).toUpper();
     fingerprint.insert(5, ' ');
     QString fingerprintMessage = QString(
-        "Here is the fingerprint of the SHARED SECRET KEY between you and your peer.\n"
+        "This is the fingerprint of the SHARED SECRET KEY between you and your peer.\n"
         "Compare them and make sure you both have the same fingerprint. If not, close the connection!\n\n"
         "%1"
     ).arg(fingerprint);

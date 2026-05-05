@@ -1,0 +1,66 @@
+@startuml
+
+autonumber
+
+participant "Client 1" as client1
+participant "Server" as server
+participant "Client 2" as client2
+
+== Diffie-Hellman key exchange ==
+
+client1 --> server : Establishes a TCP connection
+
+note over client1
+    Client 1 generates his
+    asymmetric **X25519** key pair
+    (**Private key** & **Public key**)
+end note
+
+client1 --> server : Sends his **public key**
+
+loop
+client1 --> server : Requests peer's (client 2) **public key**
+...
+end
+
+client2 --> server : Establishes a TCP connection
+
+note over client2
+    Client 2 generates his
+    asymmetric **X25519** key pair
+    (**Private key** & **Public key**)
+end note
+
+client2 --> server : Sends his **public key**
+
+loop
+    client2 --> server : Requests peer's (client 1) **public key**
+    ...
+end
+
+server --> client1 : Sends peer's (client 2) **public key**
+server --> client2 : Sends peer's (client 1) **public key**
+
+== Shared Secret key generation ==
+
+note over client1, client2
+    Both clients generate the **Shared Secret key** with **their own private key**
+    and **peer's public key**. First 10 hex digits are shown as **fingerprint**.
+end note
+
+client1 <--> client2 : Clients make sure their fingerprints are identical using an insecure medium.
+
+== End-to-End encrypted chat ==
+
+note over client1, client2
+    Messages are encrypted/decrypted using **AES-256-GCM** cipher with the **Shared Secret key**
+end note
+
+autonumber stop
+client1 --> server
+server --> client2
+...
+client2 --> server
+server --> client1
+
+@enduml
